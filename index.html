@@ -2,160 +2,145 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>BURAK AM – V3 BOMBASTIC</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>BURAK ÇAM MAL TESTİ - KAFANI SİKEYİM + YARRIM BAŞI MONTAJ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Impact, Arial Black, sans-serif;
-}
-
-body {
-  background: radial-gradient(circle, #000, #111);
-  color: #00ffcc;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.container {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-/* FOTO */
-#face {
-  width: 280px;
-  margin-bottom: 20px;
-  animation: shake 0.1s infinite alternate;
-  filter: drop-shadow(0 0 30px red);
-  cursor: pointer;
-}
-
-/* BAŞLIK */
-h1 {
-  font-size: 3.2rem;
-  color: #fff;
-  text-shadow: 0 0 25px red;
-}
-
-/* YAZI */
-#text {
-  margin-top: 20px;
-  max-width: 750px;
-  font-size: 1.3rem;
-  line-height: 1.6;
-  animation: glitch 1.2s infinite;
-}
-
-/* ANİMASYONLAR */
-@keyframes shake {
-  from { transform: translate(-4px, -2px) rotate(-1deg); }
-  to   { transform: translate(4px, 2px) rotate(1deg); }
-}
-
-@keyframes glitch {
-  0% { text-shadow: 3px 3px red; }
-  50% { text-shadow: -3px -3px blue; }
-  100% { text-shadow: 3px -3px lime; }
-}
-
-@keyframes screenShake {
-  0% { transform: translate(0); }
-  25% { transform: translate(-8px, 6px); }
-  50% { transform: translate(8px, -6px); }
-  75% { transform: translate(-6px, -8px); }
-  100% { transform: translate(0); }
-}
-
-/* ARKA PLAN YAZILARI */
-.spam {
-  position: absolute;
-  font-size: 4.5rem;
-  color: rgba(255,255,255,0.05);
-  white-space: nowrap;
-  animation: float 9s linear infinite;
-}
-
-@keyframes float {
-  from { transform: translateY(130vh); }
-  to { transform: translateY(-160vh); }
-}
-
-/* DELİ MOD */
-body.mad {
-  animation: screenShake 0.15s infinite;
-}
-
-body.mad #face {
-  animation: shake 0.04s infinite alternate;
-  filter: drop-shadow(0 0 45px lime) hue-rotate(180deg);
-}
-
-body.mad #text {
-  animation: glitch 0.3s infinite;
-  color: #ff4444;
-}
+  body {
+    margin:0; padding:0; height:100vh; background:#000; color:#eee; font-family:Arial, sans-serif;
+    overflow:hidden; position:relative;
+  }
+  .container {
+    position:relative; z-index:10;
+    width:95%; max-width:380px; margin:20px auto; padding:15px; text-align:center;
+  }
+  .bg-glitch {
+    position:fixed; inset:0; pointer-events:none; z-index:1;
+    background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(200,0,0,0.08) 2px, rgba(200,0,0,0.08) 4px);
+    animation:glitch 3s steps(4) infinite;
+  }
+  @keyframes glitch {
+    0%,19%,21%,23%,25%,54%,56%,100% { transform:translate(0); }
+    20%,24%,55% { transform:translate(3px, -3px); }
+    22%,26% { transform:translate(-3px, 3px); }
+  }
+  img.face {
+    width:75%; max-width:260px; border:4px solid #c00; box-shadow:0 0 30px #c00, inset 0 0 20px #000;
+    margin:15px auto; border-radius:50%; animation:spin-pulse 8s infinite linear;
+  }
+  @keyframes spin-pulse {
+    0%   { transform:rotate(0deg) scale(1); }
+    50%  { transform:rotate(360deg) scale(1.08); }
+    100% { transform:rotate(720deg) scale(1); }
+  }
+  .dick-head {
+    position:absolute; bottom:30px; left:50%; transform:translateX(-50%);
+    width:120px; height:120px; background:#ff4444; border-radius:50% 50% 10% 10%;
+    box-shadow:0 0 40px #ff0000, inset 0 20px 30px #aa0000;
+    animation:bounce-dick 1.6s infinite alternate;
+    z-index:5;
+  }
+  .dick-head::before {
+    content:""; position:absolute; top:-40px; left:50%; transform:translateX(-50%);
+    width:60px; height:80px; background:#ff4444; border-radius:30px 30px 0 0;
+    box-shadow:inset 0 -10px 20px #aa0000;
+  }
+  @keyframes bounce-dick {
+    0%   { transform:translateX(-50%) translateY(0) rotate(0deg); }
+    100% { transform:translateX(-50%) translateY(-20px) rotate(5deg); }
+  }
+  h1 { font-size:2.6rem; margin:10px 0; color:#c00; text-shadow:0 0 20px #c00; animation:flicker 2s infinite alternate; }
+  @keyframes flicker { 0%,100% {opacity:1;} 50% {opacity:0.7;} }
+  p.question { font-size:1.4rem; line-height:1.4; margin:20px 0; color:#ddd; }
+  .btns { display:flex; flex-direction:column; gap:14px; margin-top:20px; }
+  button {
+    font-size:1.35rem; padding:16px; background:#111; border:2px solid #555;
+    color:#eee; cursor:pointer; border-radius:8px; transition:all 0.4s;
+  }
+  button:hover { border-color:#c00; background:#300; transform:scale(1.05); }
+  .end-screen { font-size:4.2rem; color:#ff0000; text-shadow:0 0 40px #ff0000; animation:blink 0.8s infinite alternate; }
+  .end-text { font-size:1.7rem; color:#888; margin:20px 0; }
+  @keyframes blink { 0%{opacity:1;} 100%{opacity:0.3;} }
 </style>
 </head>
-
 <body>
 
+<div class="bg-glitch"></div>
+
+<div class="dick-head"></div>
+
 <div class="container">
-  <img id="face"
-       src="https://raw.githubusercontent.com/kaptanblack004-lang/Burak-Am/main/Burakcam.png"
-       alt="Burak Am">
-
-  <h1>BURAK AM</h1>
-
-  <div id="text">
-    Sistem açılıyor…<br>
-    Burak Çam tespit edildi.<br>
-    Mantık paketi bulunamadı.<br><br>
-    Konuşur ✔<br>
-    Emin konuşur ✔✔<br>
-    Yanlış konuşur ✔✔✔<br><br>
-    Sonuç: <b>Am ama bombastic.</b>
-  </div>
+  <img src="https://i.imgur.com/Tp5Gmyl.png" alt="Burak Çam cringe kralı" class="face" id="face">
+  <h1 id="title">MAL TESTİ + KAFANI SİKEYİM</h1>
+  <p class="question" id="question">Başlıyoruz lan Burak Çam / Burak Am...</p>
+  <div class="btns" id="buttons"></div>
 </div>
 
 <script>
-const texts = [
-  "Burak Çam algılandı. Beyin cevap vermiyor.",
-  "Bu adam haklı gibi konuşup haksız çıkma ustası.",
-  "Trollface bunun CV’sini doldurdu.",
-  "Boş yapma seviyesi uzay-zamanı büktü.",
-  "Am ama V3 bombastic sürüm."
+const face = document.getElementById('face');
+const title = document.getElementById('title');
+const question = document.getElementById('question');
+const buttons = document.getElementById('buttons');
+
+const questions = [
+  {
+    q: "Mal mısın lan sen?",
+    opts: [
+      {txt: "Evet amk tam malım", next: 1, insult: "Hahahaha mal mal gülüyor suratına bak"},
+      {txt: "Hayır ama biraz ezikim", next: 1, insult: "Eziklik de malın alt versiyonu orospu çocuğu"}
+    ]
+  },
+  {
+    q: "Kendine bakınca ne görüyorsun?",
+    opts: [
+      {txt: "İğrenç bi ezik görüyorum", next: 2, insult: "Doğru tespit lan, aynadaki suratın bok gibi"},
+      {txt: "Ortalama bi tipim", next: 2, insult: "Ortalama mı? Senin ortalama diye bir şeyin yok, dip"}
+    ]
+  },
+  {
+    q: "Başkaları seni görünce ne diyor?",
+    opts: [
+      {txt: "Bu ne lan bu kadar cringe", next: 3, insult: "Aynen öyle diyorlar, arkandan gülüyorlar piç"},
+      {txt: "Fark etmiyorlar bile", next: 3, insult: "Fark edilmemek de bi tür hakaret aslında mal"}
+    ]
+  },
+  {
+    q: "En cringe anın neydi?",
+    opts: [
+      {txt: "Hala devam ediyorum amk", next: "end", insult: "Devam mı ediyosun? Helal lan helal, efsane mal"},
+      {txt: "Bir kere oldu geçti", next: "end", insult: "Geçmedi lan, hala kokusu burnunda"}
+    ]
+  }
 ];
 
-let i = 0;
-setInterval(() => {
-  document.getElementById("text").innerHTML = texts[i];
-  i = (i + 1) % texts.length;
-}, 2200);
+let current = 0;
 
-// ARKA PLAN
-for (let j = 0; j < 16; j++) {
-  const s = document.createElement("div");
-  s.className = "spam";
-  s.style.left = Math.random() * 100 + "vw";
-  s.style.animationDuration = (6 + Math.random() * 7) + "s";
-  s.innerText = "BURAK AM";
-  document.body.appendChild(s);
+function load(idx) {
+  if (idx === "end") {
+    title.innerHTML = '<div class="end-screen">KAFANI SİKEYİM</div>';
+    question.textContent = "Sonuç: Sen tam bir yürüyen cringe felaketsin Burak Çam. Yeter artık bu rezillik.";
+    buttons.innerHTML = '<button onclick="location.reload()">Tekrar Mal Ol</button>';
+    face.classList.add('distort');
+    return;
+  }
+
+  const q = questions[idx];
+  question.textContent = q.q;
+  buttons.innerHTML = '';
+
+  q.opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.textContent = opt.txt;
+    btn.onclick = () => {
+      alert(opt.insult); // Hakaret popup'ı
+      load(opt.next);
+    };
+    buttons.appendChild(btn);
+  });
+
+  if (idx > 0) face.classList.add('distort');
 }
 
-// TIKLAYINCA DELİ MOD
-document.getElementById("face").addEventListener("click", () => {
-  document.body.classList.toggle("mad");
-});
+load(0);
 </script>
-
 </body>
 </html>
