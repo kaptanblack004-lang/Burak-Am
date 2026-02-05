@@ -2,329 +2,280 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Burak Am'ın Cringe ve Aptalca Serüveni</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Flappy Kardeşim 🔥</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #71c5cf, #ffffff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            background-color: #f0f0f0;
-            color: #333;
         }
-        h1, h2 {
-            text-align: center;
-        }
-        .section {
-            display: none;
-            border: 1px solid #ddd;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .active {
+        #game {
             display: block;
-        }
-        button {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 20px auto;
-            border-radius: 8px;
-        }
-        p {
-            line-height: 1.6;
-            font-size: 16px;
-        }
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            button {
-                font-size: 14px;
-                padding: 10px;
-            }
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+            touch-action: none;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
-    <div id="intro" class="section active">
-        <h1>Burak Am'ın Aptalca Cringe Serüveni</h1>
-        <img src="https://i.imgur.com/Tp5Gmyl.jpg" alt="Burak Am'ın suratsız selfiesi, gri atletle poz vermiş, sanki dünyayı kurtaracakmış gibi bakıyor ama aslında kahvaltı yakmış.">
-        <p>Merhaba lanet olası dünyam! Ben Burak Am, namıdiğer Burak Çam. Her gün aynı boktan hayatı yaşıyorum. Sabah kalkıyorum, aynaya bakıyorum ve diyorum ki "Ulan Burak, sen ne kadar aptal bir herifsin amk!" Bugün de yine öyle bir gün. Yataktan kalktım, mutfağa gittim ve kahvaltı yapmaya karar verdim. Ama tabii ki her şey ters gidecek, çünkü ben Burak Am'ım, şanssızlığın kralı!</p>
-        <p>Sürükleyici bir serüvene hazır mısın? Seçimlerinle benim hayatını yönlendireceksin. Ama dikkat et, her seçim aptalca bir sonuca yol açabilir. Haydi başla, seni gidi aptal oyuncu!</p>
-        <button onclick="showSection('kahvalti')">Kahvaltı yap, enerjini topla lan!</button>
-        <button onclick="showSection('dus')">Direkt duşa gir, kokma amk!</button>
-        <button onclick="showSection('telefon')">Telefonu eline al, sosyal medyada gez</button>
-    </div>
-
-    <div id="kahvalti" class="section">
-        <h2>Kahvaltı Vakti, Aptal Burak!</h2>
-        <p>Ulan kalktın mı yoksa yataktan düşerek mi geldin mutfağa? Neyse, kahvaltı yapacaksın. Buzdolabını açtın, içinden yumurta çıktı. Ama senin gibi bir mal, yumurtayı nasıl pişireceğini bilemez. Ha ha, yakacaksın kesin! "Burak sen ne kadar beceriksizsin amk, yumurta bile yapamıyorsun!" diye kendine sövüyorsun içinden. Şimdi seçim yap:</p>
-        <button onclick="showSection('intro')">Geri dön, belki başka bir şey yap</button>
-        <button onclick="showSection('yumurta')">Yumurtayı haşla, sağlıklı ol</button>
-        <button onclick="showSection('aburcubur')">Abur cubur ye, şişmanla lan!</button>
-        <button onclick="showSection('kahve')">Sadece kahve iç, uyan amk!</button>
-    </div>
-
-    <div id="dus" class="section">
-        <h2>Duşa Gir, Kokuşuk Herif!</h2>
-        <p>Doğru karar lan, kokuyorsun çünkü dün gece ter içinde yatmışsın. Duşa girdin, suyun altına geçtin. Ama tabii ki sıcak su bitmiş! "Ulan Burak, faturayı ödemeyi unuttun mu yoksa? Seni aptal piç!" diye kendine küfrediyorsun. Soğuk suyla yıkanıyorsun, titreyerek çıkıyorsun. Şimdi ne yapacaksın?</p>
-        <button onclick="showSection('intro')">Geri dön</button>
-        <button onclick="showSection('giysi')">Giysi giy, dışarı çık</button>
-        <button onclick="showSection('ayna')">Aynaya bak, kendine söv</button>
-        <button onclick="showSection('yatak')">Yatığa dön, uyu yine</button>
-    </div>
-
-    <div id="telefon" class="section">
-        <h2>Telefon Zamanı, Sosyal Medya Bağımlısı!</h2>
-        <p>Telefonu eline aldın, Instagram'a girdin. Arkadaşların hikayelerini izliyorsun, hepsi tatilde, sen evdesin. "Ulan Burak, sen ne kadar loser bir adamsın amk! Herkes eğleniyor, sen burada pinekliyorsun." diye içinden geçiriyorsun. Bir like atıyorsun, ama kimse sana dönmüyor. Cringe bir selfie çekip story atıyorsun. Şimdi?</p>
-        <button onclick="showSection('intro')">Geri dön</button>
-        <button onclick="showSection('mesaj')">Birine mesaj at</button>
-        <button onclick="showSection('oyun')">Oyun oyna, vakit öldür</button>
-        <button onclick="showSection('haber')">Haber oku, depresyona gir</button>
-    </div>
-
-    <div id="yumurta" class="section">
-        <h2>Yumurta Haşlama Faciası</h2>
-        <p>Yumurtayı haşlamaya karar verdin. Tencereye su koydun, yumurtayı attın. Ama zamanı ayarlayamadın, taş gibi oldu! "Burak sen ne mallıksın amk, basit bir yumurta bile yapamıyorsun!" diye kendine hakaret ediyorsun. Yiyorsun zorla, miden bulanıyor. Devam et:</p>
-        <button onclick="showSection('kahvalti')">Geri</button>
-        <button onclick="showSection('is')">İşe gitmeye hazırlan</button>
-        <button onclick="showSection('arkadas')">Arkadaşı ara</button>
-    </div>
-
-    <div id="aburcubur" class="section">
-        <h2>Abur Cubur Partisi</h2>
-        <p>Abur cubur yemeye karar verdin, cips, çikolata falan tıktın. Şişmanlayacaksın lan! "Ulan Burak, sen ne kadar tembel bir piçsin, sağlıklı beslenmeyi bile beceremiyorsun!" Midin şişti, gaz çıkıyorsun. Cringe bir durum. Şimdi?</p>
-        <button onclick="showSection('kahvalti')">Geri</button>
-        <button onclick="showSection('spor')">Spor yap, pişman ol</button>
-        <button onclick="showSection('uyku')">Uyu, hazmet</button>
-    </div>
-
-    <div id="kahve" class="section">
-        <h2>Kahve İç, Uyan Lan!</h2>
-        <p>Kahve yaptın, ama şekeri fazla kaçırdın. Titriyerek içiyorsun. "Burak sen ne aptalsın amk, kahveyi bile doğru yapamıyorsun!" Kalbin çarpıyor, hiper oldun. Devam:</p>
-        <button onclick="showSection('kahvalti')">Geri</button>
-        <button onclick="showSection('disari')">Dışarı çık, enerjiyi at</button>
-        <button onclick="showSection('calis')">Evde çalış</button>
-    </div>
-
-    <div id="giysi" class="section">
-        <h2>Giysi Giyme Vakti</h2>
-        <p>Giysi giydin, ama ütüsüz. Kırışık kırışık gezeceksin. "Ulan Burak, sen ne kadar pasaklısın amk!" Aynada kendine bakıyorsun, cringe bir görüntü. Şimdi?</p>
-        <button onclick="showSection('dus')">Geri</button>
-        <button onclick="showSection('araba')">Arabaya bin, trafiğe gir</button>
-        <button onclick="showSection('yurume')">Yürüyerek git</button>
-    </div>
-
-    <div id="ayna" class="section">
-        <h2>Aynaya Bak, Kendine Söv</h2>
-        <p>Aynaya baktın, saçın başın dağınık. "Burak sen ne çirkin bir herifsin amk, kimse seni sevmez!" diye kendine hakaret ediyorsun. Depresyona girdin. Devam et:</p>
-        <button onclick="showSection('dus')">Geri</button>
-        <button onclick="showSection('makyaj')">Makyaj yap, güzelleş</button> <!-- Şaka tabii -->
-        <button onclick="showSection('vazgec')">Vazgeç, yat</button>
-    </div>
-
-    <div id="yatak" class="section">
-        <h2>Yatığa Dön, Tembel!</h2>
-        <p>Yatığa döndün, uykuya daldın. Rüyanda saçma şeyler görüyorsun. Uyanınca gün bitmiş. "Ulan Burak, sen ne kadar işe yaramazsın amk!" Gün boşa gitti.</p>
-        <button onclick="showSection('dus')">Geri</button>
-        <button onclick="showSection('son')">Serüveni bitir</button>
-    </div>
-
-    <div id="mesaj" class="section">
-        <h2>Birine Mesaj At</h2>
-        <p>Arkadaşa mesaj attın: "Naber lan?" Cevap gelmiyor. "Burak sen ne yalnız bir piçsin amk, kimse seni takmıyor!" Bekliyorsun boşuna. Şimdi?</p>
-        <button onclick="showSection('telefon')">Geri</button>
-        <button onclick="showSection('arama')">Ara yerine</button>
-        <button onclick="showSection('sil')">Mesajı sil, utanç verici</button>
-    </div>
-
-    <div id="oyun" class="section">
-        <h2>Oyun Oyna, Vakit Öldür</h2>
-        <p>Oyun açtın, saatler geçti. Kaybettin tabii. "Ulan Burak, sen ne kadar noobsun amk!" Zaman boşa gitti. Devam:</p>
-        <button onclick="showSection('telefon')">Geri</button>
-        <button onclick="showSection('kapat')">Telefonu kapat</button>
-    </div>
-
-    <div id="haber" class="section">
-        <h2>Haber Oku, Depresyona Gir</h2>
-        <p>Haberlerde kötü şeyler var. "Burak sen ne şanssız bir dünyadasın amk!" Moral bozuldu. Şimdi?</p>
-        <button onclick="showSection('telefon')">Geri</button>
-        <button onclick="showSection('muzik')">Müzik dinle, rahatla</button>
-    </div>
-
-    <!-- Daha fazla kol ekleyerek upuzun hale getiriyorum. Benzer şekilde yüzlerce section ekleyebilirim ama burada örnek olarak devam ettiriyorum. Gerçekte 5MB için binlerce satır metin ekle, ama burada kısaltılmış. -->
-
-    <div id="is" class="section">
-        <h2>İşe Gitmeye Hazırlan</h2>
-        <p>İşe gideceksin, ama geç kaldın. "Ulan Burak, sen ne disiplinsizsin amk!" Koşturuyorsun. Devam:</p>
-        <button onclick="showSection('yumurta')">Geri</button>
-        <button onclick="showSection('patron')">Patronu ara</button>
-    </div>
-
-    <div id="arkadas" class="section">
-        <h2>Arkadaşı Ara</h2>
-        <p>Arkadaşı aradın, "Gel lan eğlenelim" diyorsun. O da "Yok" diyor. "Burak sen ne sevimsizsin amk!" Yalnız kaldın.</p>
-        <button onclick="showSection('yumurta')">Geri</button>
-        <button onclick="showSection('son')">Bitir</button>
-    </div>
-
-    <div id="spor" class="section">
-        <h2>Spor Yap, Pişman Ol</h2>
-        <p>Spor yaptın, ama yoruldun hemen. "Ulan Burak, sen ne zayıfsın amk!" Pes ettin. Devam:</p>
-        <button onclick="showSection('aburcubur')">Geri</button>
-        <button onclick="showSection('dus')">Duşa gir yine</button>
-    </div>
-
-    <div id="uyku" class="section">
-        <h2>Uyu, Hazmet</h2>
-        <p>Uyudun, rüyanda abur cubur görüyorsun. Uyanınca şişsin. "Burak sen ne obursun amk!"</p>
-        <button onclick="showSection('aburcubur')">Geri</button>
-        <button onclick="showSection('son')">Bitir</button>
-    </div>
-
-    <div id="disari" class="section">
-        <h2>Dışarı Çık, Enerji At</h2>
-        <p>Dışarı çıktın, yağmur yağıyor. Islanıyorsun. "Ulan Burak, hava durumuna bakmadın mı aptal!" Cringe ıslak halde dönüyorsun.</p>
-        <button onclick="showSection('kahve')">Geri</button>
-        <button onclick="showSection('ev')">Eve dön</button>
-    </div>
-
-    <div id="calis" class="section">
-        <h2>Evde Çalış</h2>
-        <p>Çalışmaya başladın, ama dikkat dağıldı. "Burak sen ne odaklanamıyorsun amk!" Verimsiz gün.</p>
-        <button onclick="showSection('kahve')">Geri</button>
-        <button onclick="showSection('son')">Bitir</button>
-    </div>
-
-    <div id="araba" class="section">
-        <h2>Arabaya Bin</h2>
-        <p>Arabaya bindin, trafik var. Klakson çalıyorsun. "Ulan Burak, sabırsız piç!" Geç kaldın.</p>
-        <button onclick="showSection('giysi')">Geri</button>
-        <button onclick="showSection('is')">İşe var</button>
-    </div>
-
-    <div id="yurume" class="section">
-        <h2>Yürüyerek Git</h2>
-        <p>Yürüyorsun, yoruldun. "Burak sen ne tembelsin amk!" Terledin.</p>
-        <button onclick="showSection('giysi')">Geri</button>
-        <button onclick="showSection('son')">Bitir</button>
-    </div>
-
-    <div id="makyaj" class="section">
-        <h2>Makyaj Yap, Güzelleş</h2>
-        <p>Makyaj yaptın, ama komik oldun. "Ulan Burak, sen ne clownsun amk!" Gülüyorsun kendine.</p>
-        <button onclick="showSection('ayna')">Geri</button>
-        <button onclick="showSection('disari')">Dışarı çık</button>
-    </div>
-
-    <div id="vazgec" class="section">
-        <h2>Vazgeç, Yat</h2>
-        <p>Vazgeçtin, yattın. Gün boşa. "Burak sen ne başarısızsın amk!"</p>
-        <button onclick="showSection('ayna')">Geri</button>
-        <button onclick="showSection('son')">Bitir</button>
-    </div>
-
-    <div id="arama" class="section">
-        <h2>Ara Yerine</h2>
-        <p>Aradın, meşgul. "Ulan Burak, şanssız herif!" Pes ettin.</p>
-        <button onclick="showSection('mesaj')">Geri</button>
-        <button onclick="showSection('son')">Bitir</button>
-    </div>
-
-    <div id="sil" class="section">
-        <h2>Mesajı Sil</h2>
-        <p>Sildin, utandın. "Burak sen ne cringe'sin amk!"</p>
-        <button onclick="showSection('mesaj')">Geri</button>
-        <button onclick="showSection('telefon')">Telefonu bırak</button>
-    </div>
-
-    <div id="kapat" class="section">
-        <h2>Telefonu Kapat</h2>
-        <p>Kapattın, rahatladın. Ama sıkıldın hemen. "Ulan Burak, bağımlısın amk!"</p>
-        <button onclick="showSection('oyun')">Geri</button>
-        <button onclick="showSection('disari')">Dışarı çık</button>
-    </div>
-
-    <div id="muzik" class="section">
-        <h2>Müzik Dinle</h2>
-        <p>Müzik açtın, dans ediyorsun yalnız. Cringe hareketler. "Burak sen ne komiksin amk!"</p>
-        <button onclick="showSection('haber')">Geri</button>
-        <button onclick="showSection('son')">Bitir</button>
-    </div>
-
-    <div id="patron" class="section">
-        <h2>Patronu Ara</h2>
-        <p>Patronu aradın, azar işittin. "Ulan Burak, sen ne sorumsuzsun amk!" İşten kovulma tehlikesi.</p>
-        <button onclick="showSection('is')">Geri</button>
-        <button onclick="showSection('son')">Bitir</button>
-    </div>
-
-    <div id="ev" class="section">
-        <h2>Eve Dön</h2>
-        <p>Eve döndün, ıslaksın. "Burak sen ne malaksın amk!"</p>
-        <button onclick="showSection('disari')">Geri</button>
-        <button onclick="showSection('dus')">Duşa gir</button>
-    </div>
-
-    <div id="son" class="section">
-        <h2>Serüven Sonu, Aptal Burak!</h2>
-        <p>Tebrikler lan, serüveni bitirdin. Ama hayat devam ediyor, yarın yine aynı bok. "Ulan Burak, sen hiç değişmezsin amk!" Başa dön ve başka seçimler dene.</p>
-        <img src="https://i.imgur.com/Tp5Gmyl.jpg" alt="Burak Am'ın son hali, hala aynı suratsız.">
-        <button onclick="showSection('intro')">Başa Dön</button>
-    </div>
-
-    <!-- Buraya daha fazla section ekleyerek dosyayı upuzun hale getirebilirsin. Örneğin, her dal için yeni hikayeler, uzun paragraflar. 5MB için yaklaşık 5 milyon karakter metin ekle, ama bu örnekte kısaltılmış. Gerçek üretimde Python ile generate edilebilir ama burada manuel. Ekstra yaratıcı kısım: Burak Am birden uzaya gidiyor! -->
-
-    <div id="uzay" class="section"> <!-- Yaratıcı ek: Uzay macerası -->
-        <h2>Uzay Macerası, Burak Am!</h2>
-        <p>Birden evine uzaylılar indi! "Ulan Burak, sen ne şanslı piçsin amk, ama korkuyorsun!" Uzaylılar seni kaçırıyor. Şimdi ne yapacaksın?</p>
-        <button onclick="showSection('disari')">Geri (eğer buraya nasıl geldiysen)</button>
-        <button onclick="showSection('kac')">Kaçmaya çalış</button>
-        <button onclick="showSection('konus')">Uzaylılarla konuş</button>
-    </div>
-
-    <div id="kac" class="section">
-        <h2>Kaçmaya Çalış</h2>
-        <p>Kaçıyorsun, ama yakalanıyorsun. "Burak sen ne yavaşsın amk!" Uzayda hapis.</p>
-        <button onclick="showSection('uzay')">Geri</button>
-        <button onclick="showSection('son')">Bitir</button>
-    </div>
-
-    <div id="konus" class="section">
-        <h2>Uzaylılarla Konuş</h2>
-        <p>Konuşuyorsun, "Merhaba lan" diyorsun. Onlar gülüyor. "Ulan Burak, evrensel dilin küfür mü amk!" Dost oldunuz, galaksiyi geziyorsunuz.</p>
-        <button onclick="showSection('uzay')">Geri</button>
-        <button onclick="showSection('son')">Bitir (mutlu son)</button>
-    </div>
-
-    <!-- Devamını sen hayal et, daha fazla dal ekle. Bu şekilde sürükleyici ve akıcı bir serüven oluyor. Küfürler şahsi, kendine yönelik. -->
-
+    <canvas id="game"></canvas>
     <script>
-        function showSection(id) {
-            document.querySelectorAll('.section').forEach(function(section) {
-                section.classList.remove('active');
-            });
-            document.getElementById(id).classList.add('active');
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+
+        const CANVAS_WIDTH = 288;
+        const CANVAS_HEIGHT = 512;
+        const BIRD_X = 60;
+        const BIRD_WIDTH = 44;
+        const BIRD_HEIGHT = 44;
+        const PIPE_WIDTH = 52;
+        const PIPE_GAP = 130;
+        const PIPE_SPACING = 240;
+        const GROUND_Y = 412;
+        const GRAVITY = 0.4;
+        const JUMP = -7;
+        const SPEED = 2;
+        const GROUND_TILE_WIDTH = 112;
+
+        canvas.width = CANVAS_WIDTH;
+        canvas.height = CANVAS_HEIGHT;
+
+        let bird = { y: 200, vy: 0 };
+        let pipes = [];
+        let score = 0;
+        let groundX = 0;
+        let gameOver = false;
+
+        const birdImg = new Image();
+        birdImg.src = 'https://i.imgur.com/9sZhySO.jpeg';
+        const gameoverImg = new Image();
+        gameoverImg.src = 'https://i.imgur.com/GqDuolU.jpeg';
+
+        function resize() {
+            const scale = Math.min(
+                window.innerWidth / CANVAS_WIDTH,
+                window.innerHeight / CANVAS_HEIGHT
+            );
+            canvas.style.width = `${CANVAS_WIDTH * scale}px`;
+            canvas.style.height = `${CANVAS_HEIGHT * scale}px`;
         }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function rectsIntersect(r1, r2) {
+            return !(r1.left > r2.right || r1.right < r2.left || r1.top > r2.bottom || r1.bottom < r2.top);
+        }
+
+        function update() {
+            if (gameOver) return;
+
+            // Bird physics
+            bird.vy += GRAVITY;
+            bird.y += bird.vy;
+
+            // Pipes move and score
+            for (let i = pipes.length - 1; i >= 0; i--) {
+                pipes[i].x -= SPEED;
+                if (pipes[i].x < -PIPE_WIDTH) {
+                    pipes.splice(i, 1);
+                    continue;
+                }
+                if (!pipes[i].scored && pipes[i].x + PIPE_WIDTH < BIRD_X) {
+                    score++;
+                    pipes[i].scored = true;
+                }
+            }
+
+            // Add new pipe
+            if (pipes.length === 0 || pipes[pipes.length - 1].x < CANVAS_WIDTH - PIPE_SPACING) {
+                const minGapTop = 80;
+                const maxGapTop = GROUND_Y - PIPE_GAP - 80;
+                const gapTop = minGapTop + Math.random() * (maxGapTop - minGapTop);
+                pipes.push({ x: CANVAS_WIDTH, gapTop: gapTop, scored: false });
+            }
+
+            // Collisions
+            const birdRect = {
+                left: BIRD_X,
+                top: bird.y,
+                right: BIRD_X + BIRD_WIDTH,
+                bottom: bird.y + BIRD_HEIGHT
+            };
+
+            for (let pipe of pipes) {
+                // Upper pipe
+                const upper = {
+                    left: pipe.x,
+                    top: 0,
+                    right: pipe.x + PIPE_WIDTH,
+                    bottom: pipe.gapTop
+                };
+                if (rectsIntersect(birdRect, upper)) {
+                    gameOver = true;
+                    return;
+                }
+
+                // Lower pipe
+                const lowerTop = pipe.gapTop + PIPE_GAP;
+                const lower = {
+                    left: pipe.x,
+                    top: lowerTop,
+                    right: pipe.x + PIPE_WIDTH,
+                    bottom: GROUND_Y
+                };
+                if (rectsIntersect(birdRect, lower)) {
+                    gameOver = true;
+                    return;
+                }
+            }
+
+            // Ground and ceiling
+            if (bird.y < 0 || bird.y + BIRD_HEIGHT > GROUND_Y) {
+                gameOver = true;
+            }
+
+            // Ground scroll
+            groundX -= SPEED;
+            if (groundX <= -GROUND_TILE_WIDTH) {
+                groundX = 0;
+            }
+        }
+
+        function draw() {
+            // Clear
+            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            // Background gradient
+            const grad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
+            grad.addColorStop(0, '#A2D2FF');
+            grad.addColorStop(0.5, '#E3F2FD');
+            grad.addColorStop(1, '#BBDEFB');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            // Pipes
+            ctx.fillStyle = '#5B9A4D';
+            for (let pipe of pipes) {
+                // Upper
+                ctx.fillRect(pipe.x, 0, PIPE_WIDTH, pipe.gapTop);
+                ctx.fillStyle = '#4D8233';
+                ctx.fillRect(pipe.x - 3, pipe.gapTop - 25, PIPE_WIDTH + 6, 25);
+                ctx.fillStyle = '#5B9A4D';
+
+                // Lower
+                const lowerTop = pipe.gapTop + PIPE_GAP;
+                const lowerHeight = GROUND_Y - lowerTop;
+                ctx.fillRect(pipe.x, lowerTop, PIPE_WIDTH, lowerHeight);
+                ctx.fillStyle = '#4D8233';
+                ctx.fillRect(pipe.x - 3, lowerTop, PIPE_WIDTH + 6, 25);
+                ctx.fillStyle = '#5B9A4D';
+            }
+
+            // Ground
+            const drawGroundTile = (xOffset) => {
+                ctx.save();
+                ctx.translate(xOffset, GROUND_Y);
+                ctx.fillStyle = '#DED895';
+                ctx.fillRect(0, 0, GROUND_TILE_WIDTH, CANVAS_HEIGHT - GROUND_Y);
+                ctx.fillStyle = '#C8B782';
+                ctx.fillRect(0, 0, GROUND_TILE_WIDTH, 25);
+                ctx.restore();
+            };
+            drawGroundTile(groundX);
+            drawGroundTile(groundX + GROUND_TILE_WIDTH);
+
+            // Bird
+            if (birdImg.complete && birdImg.naturalWidth > 0) {
+                ctx.save();
+                ctx.translate(BIRD_X + BIRD_WIDTH / 2, bird.y + BIRD_HEIGHT / 2);
+                let rot = bird.vy * 0.08;
+                rot = Math.max(-0.3, Math.min(0.8, rot));
+                ctx.rotate(rot);
+                ctx.drawImage(birdImg, -BIRD_WIDTH / 2, -BIRD_HEIGHT / 2, BIRD_WIDTH, BIRD_HEIGHT);
+                ctx.restore();
+            } else {
+                // Fallback
+                ctx.fillStyle = '#FFD700';
+                ctx.beginPath();
+                ctx.arc(BIRD_X + BIRD_WIDTH / 2, bird.y + BIRD_HEIGHT / 2, BIRD_WIDTH / 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Score
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, 80);
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 48px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(score.toString(), CANVAS_WIDTH / 2, 40);
+
+            // Game Over
+            if (gameOver && gameoverImg.complete && gameoverImg.naturalWidth > 0) {
+                ctx.globalAlpha = 0.92;
+                ctx.drawImage(gameoverImg, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                ctx.globalAlpha = 1.0;
+
+                // Restart text
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                ctx.shadowColor = 'black';
+                ctx.shadowBlur = 4;
+                ctx.font = 'bold 28px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText('Dokun / Tıkla yeniden oyna!', CANVAS_WIDTH / 2, CANVAS_HEIGHT - 30);
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function jump() {
+            if (gameOver) {
+                // Reset
+                bird.y = 200;
+                bird.vy = 0;
+                pipes = [];
+                score = 0;
+                groundX = 0;
+                gameOver = false;
+            } else {
+                bird.vy = JUMP;
+            }
+        }
+
+        // Events
+        canvas.addEventListener('click', (e) => {
+            e.preventDefault();
+            jump();
+        });
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            jump();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                jump();
+            }
+        });
+
+        // Start
+        gameLoop();
     </script>
 </body>
 </html>
