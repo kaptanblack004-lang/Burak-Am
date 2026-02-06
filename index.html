@@ -3,180 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>FLAPPY AGRESSIVE EDITION</title>
+    <title>FLAPPY MEGA ULTRA</title>
     <style>
+        /* Mobil Zoom Engelleme ve Genel Reset */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; padding: 0; overflow: hidden; background: #000; font-family: 'Arial Black', sans-serif; touch-action: none; }
-        canvas { display: block; margin: 0 auto; }
+        body { 
+            margin: 0; padding: 0; overflow: hidden; background: #000; 
+            font-family: 'Arial Black', sans-serif; touch-action: none; 
+        }
+        canvas { display: block; margin: 0 auto; background: #000; }
         
-        #ui-layer {
+        #ui-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 100;
         }
 
-        #score-display {
-            text-align: center; color: white; font-size: 60px; font-weight: 900;
+        #score-now {
+            text-align: center; color: white; font-size: 60px;
             margin-top: 20px; text-shadow: 0 0 20px #ff0055;
         }
 
-        /* GAME OVER EKRANI */
-        #game-over-screen {
+        /* GAME OVER EKRANI - MOBİL ODAKLI MERKEZLEME */
+        #death-screen {
             display: none; position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.92);
+            width: 100%; height: 100%; background: rgba(0,0,0,0.9);
             pointer-events: auto; flex-direction: column;
             justify-content: center; align-items: center; padding: 20px;
         }
 
-        #game-over-screen img { 
-            width: 85%; max-width: 320px; border-radius: 20px; 
-            border: 4px solid #0ff; margin-bottom: 20px;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        #death-screen img { 
+            width: 85%; max-width: 300px; border-radius: 15px; 
+            border: 4px solid #ff0055; margin-bottom: 20px;
         }
 
-        .score-info { color: #fff; font-size: 24px; margin-bottom: 30px; }
+        .final-info { color: #0ff; font-size: 24px; margin-bottom: 30px; }
 
-        /* İSTEDİĞİN O MEŞHUR BUTON */
-        #mega-retry-btn {
-            width: 90%; max-width: 380px; height: 110px;
-            background: linear-gradient(135deg, #ff0055 0%, #ff5500 100%);
+        /* İSTEDİĞİN O MEŞHUR BUTON - %100 ÇALIŞIR */
+        #retry-action-btn {
+            width: 90%; max-width: 350px; height: 100px;
+            background: linear-gradient(45deg, #ff0055, #ff5500);
             color: white; border: none; border-radius: 20px;
             font-size: 22px; font-weight: 900; cursor: pointer;
-            box-shadow: 0 10px 0 #990033, 0 15px 30px rgba(255, 0, 85, 0.4);
+            box-shadow: 0 8px 0 #903, 0 10px 30px rgba(255, 0, 85, 0.4);
             display: flex; justify-content: center; align-items: center;
             text-align: center; text-transform: uppercase;
-            letter-spacing: 1px; transition: transform 0.1s;
         }
         
-        #mega-retry-btn:active { 
+        #retry-action-btn:active { 
             transform: translateY(6px); 
-            box-shadow: 0 4px 0 #990033;
-            background: #fff; 
-            color: #ff0055; 
+            box-shadow: 0 2px 0 #903;
+            background: #fff; color: #ff0055; 
         }
     </style>
 </head>
 <body>
 
-<canvas id="gameCanvas"></canvas>
+<canvas id="mc"></canvas>
 
-<div id="ui-layer">
-    <div id="score-display">0</div>
-    <div id="game-over-screen">
+<div id="ui-wrapper">
+    <div id="score-now">0</div>
+    <div id="death-screen">
         <img src="https://i.imgur.com/GqDuolU.jpeg" alt="Yandın">
-        <div class="score-info">TOPLAM SKOR: <span id="final-score">0</span></div>
-        <button id="mega-retry-btn">KAFASINI SİKTİĞİM<br>TEKRAR DENE</button>
+        <div class="final-info">SKOR: <span id="final-pts">0</span></div>
+        <button id="retry-action-btn">KAFASINI SİKTİĞİM<br>TEKRAR DENE</button>
     </div>
 </div>
 
 <script>
-const cvs = document.getElementById("gameCanvas");
-const ctx = cvs.getContext("2d");
-const scoreText = document.getElementById("score-display");
-const overScreen = document.getElementById("game-over-screen");
-const retryBtn = document.getElementById("mega-retry-btn");
-const finalScoreText = document.getElementById("final-score");
+const canvas = document.getElementById("mc");
+const ctx = canvas.getContext("2d");
+const scoreNow = document.getElementById("score-now");
+const deathScreen = document.getElementById("death-screen");
+const retryBtn = document.getElementById("retry-action-btn");
+const finalPts = document.getElementById("final-pts");
 
-// Mobil Uyumluluk Ayarı
+// Ekran ayarları
 let w = window.innerWidth > 450 ? 420 : window.innerWidth;
 let h = window.innerHeight;
-cvs.width = w; cvs.height = h;
+canvas.width = w; canvas.height = h;
 
-const birdImg = new Image(); birdImg.src = "https://i.imgur.com/9sZhySO.jpeg";
+const bImg = new Image(); bImg.src = "https://i.imgur.com/9sZhySO.jpeg";
 
-let bird, pipes, score, frame, isAlive;
-const gravity = 0.35, jumpForce = -6.5;
+let bird, pipes, score, frame, active;
+const g = 0.35, jump = -6.5;
 
-function start() {
-    bird = { x: 60, y: h/2, w: 50, h: 50, v: 0 };
-    pipes = [];
-    score = 0;
-    frame = 0;
-    isAlive = true;
-    scoreText.innerText = "0";
-    overScreen.style.display = "none";
+function setup() {
+    bird = { x: 50, y: h/2, w: 45, h: 45, v: 0 };
+    pipes = []; score = 0; frame = 0; active = true;
+    scoreNow.innerText = "0";
+    deathScreen.style.display = "none";
 }
 
 function die() {
-    isAlive = false;
-    finalScoreText.innerText = score;
-    overScreen.style.display = "flex";
+    active = false;
+    finalPts.innerText = score;
+    deathScreen.style.display = "flex";
 }
 
 function update() {
-    if(!isAlive) return;
+    if(!active) return;
+    bird.v += g; bird.y += bird.v;
 
-    bird.v += gravity;
-    bird.y += bird.v;
-
-    if(frame % 85 === 0) {
+    if(frame % 90 === 0) {
         let gap = 180;
         let t = Math.random() * (h - gap - 200) + 100;
-        pipes.push({ x: w, t: t, g: gap, passed: false });
+        pipes.push({ x: w, t: t, g: gap, p: false });
     }
 
     pipes.forEach((p, i) => {
         p.x -= 3.5;
-        // Çarpışma Kutusu (Hassas ayar)
-        if(bird.x + 8 < p.x + 65 && bird.x + bird.w - 8 > p.x && 
-          (bird.y + 8 < p.t || bird.y + bird.h - 8 > p.t + p.g)) die();
-
-        if(!p.passed && p.x < bird.x) {
-            score++;
-            p.passed = true;
-            scoreText.innerText = score;
-        }
+        if(bird.x + 5 < p.x + 60 && bird.x + bird.w - 5 > p.x && 
+          (bird.y + 5 < p.t || bird.y + bird.h - 5 > p.t + p.g)) die();
+        if(!p.p && p.x < bird.x) { score++; p.p = true; scoreNow.innerText = score; }
         if(p.x < -80) pipes.splice(i, 1);
     });
 
-    if(bird.y > h || bird.y < -150) die();
+    if(bird.y > h || bird.y < -100) die();
     frame++;
 }
 
-function draw() {
-    ctx.fillStyle = "#000"; // Arka plan siyah
-    ctx.fillRect(0, 0, w, h);
-
-    // Borular
+function loop() {
+    ctx.fillStyle = "#000"; ctx.fillRect(0, 0, w, h);
     pipes.forEach(p => {
         ctx.fillStyle = "#ff0055";
-        ctx.fillRect(p.x, 0, 65, p.t);
-        ctx.fillRect(p.x, p.t + p.g, 65, h);
+        ctx.fillRect(p.x, 0, 60, p.t);
+        ctx.fillRect(p.x, p.t + p.g, 60, h);
     });
-
-    // Kuş ve Rotasyon
     ctx.save();
     ctx.translate(bird.x + bird.w/2, bird.y + bird.h/2);
     ctx.rotate(Math.min(Math.PI/4, Math.max(-Math.PI/4, bird.v * 0.1)));
-    ctx.drawImage(birdImg, -bird.w/2, -bird.h/2, bird.w, bird.h);
+    ctx.drawImage(bImg, -bird.w/2, -bird.h/2, bird.w, bird.h);
     ctx.restore();
-
     update();
-    requestAnimationFrame(draw);
+    requestAnimationFrame(loop);
 }
 
-// BUTONUN ÇALIŞMASINI GARANTİLEYEN KISIM
+// KRİTİK DÜZELTME: Buton Tıklama Olayı
 retryBtn.addEventListener("pointerdown", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    start();
+    e.preventDefault(); e.stopPropagation();
+    setup(); // Oyunu yeniden başlat
 });
 
 // Zıplama Kontrolü
-const handleAction = (e) => {
-    if(!isAlive) return;
+const go = (e) => {
+    if(!active) return;
     if(e.type === 'touchstart') e.preventDefault();
-    bird.v = jumpForce;
+    bird.v = jump;
 };
 
 window.addEventListener("pointerdown", (e) => {
-    if(e.target.id !== "mega-retry-btn") handleAction(e);
+    if(e.target.id !== "retry-action-btn") go(e);
 });
-window.addEventListener("keydown", (e) => { if(e.code === "Space") handleAction(e); });
+window.addEventListener("keydown", (e) => { if(e.code === "Space") go(e); });
 
-birdImg.onload = () => {
-    start();
-    draw();
-};
+bImg.onload = () => { setup(); loop(); };
 </script>
 </body>
 </html>
