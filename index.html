@@ -3,178 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>BURAK AM FLAPPY VERSİON😆</title>
+    <title>FLAPPY AGRESSIVE EDITION</title>
     <style>
-        body { margin: 0; padding: 0; overflow: hidden; background: #000; touch-action: none; font-family: 'Arial Black', sans-serif; }
-        canvas { display: block; margin: 0 auto; background: #000; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; padding: 0; overflow: hidden; background: #000; font-family: 'Arial Black', sans-serif; touch-action: none; }
+        canvas { display: block; margin: 0 auto; }
         
-        #ui {
-            position: fixed; top: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 440px; height: 100%;
+        #ui-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 100;
         }
-        .score-text {
-            text-align: center; color: #fff; font-size: 70px;
-            text-shadow: 0 0 20px #0ff; margin-top: 20px;
+
+        #score-display {
+            text-align: center; color: white; font-size: 60px; font-weight: 900;
+            margin-top: 20px; text-shadow: 0 0 20px #ff0055;
         }
-        #game-over-box {
-            display: none; position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); pointer-events: auto;
-            background: rgba(10, 10, 10, 0.95); border: 4px solid #f0f;
-            padding: 25px; border-radius: 20px; text-align: center; width: 80%;
-            box-shadow: 0 0 50px #f0f;
+
+        /* GAME OVER EKRANI */
+        #game-over-screen {
+            display: none; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.92);
+            pointer-events: auto; flex-direction: column;
+            justify-content: center; align-items: center; padding: 20px;
         }
-        #game-over-box img { width: 100%; border-radius: 10px; margin: 15px 0; }
+
+        #game-over-screen img { 
+            width: 85%; max-width: 320px; border-radius: 20px; 
+            border: 4px solid #0ff; margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .score-info { color: #fff; font-size: 24px; margin-bottom: 30px; }
+
+        /* İSTEDİĞİN O MEŞHUR BUTON */
+        #mega-retry-btn {
+            width: 90%; max-width: 380px; height: 110px;
+            background: linear-gradient(135deg, #ff0055 0%, #ff5500 100%);
+            color: white; border: none; border-radius: 20px;
+            font-size: 22px; font-weight: 900; cursor: pointer;
+            box-shadow: 0 10px 0 #990033, 0 15px 30px rgba(255, 0, 85, 0.4);
+            display: flex; justify-content: center; align-items: center;
+            text-align: center; text-transform: uppercase;
+            letter-spacing: 1px; transition: transform 0.1s;
+        }
         
-        /* ÇALIŞAN BUTON STİLİ */
-        .retry-btn {
-            background: linear-gradient(45deg, #f0f, #0ff);
-            color: #fff; border: none; padding: 18px 0;
-            font-size: 24px; border-radius: 12px; cursor: pointer;
-            font-weight: bold; width: 100%; display: block;
-            text-shadow: 1px 1px 2px #000;
-            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.4);
+        #mega-retry-btn:active { 
+            transform: translateY(6px); 
+            box-shadow: 0 4px 0 #990033;
+            background: #fff; 
+            color: #ff0055; 
         }
-        .retry-btn:hover { filter: brightness(1.2); }
-        .retry-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
-<div id="ui">
-    <div class="score-text" id="scoreDisplay">0</div>
-    <div id="game-over-box">
-        <h2 style="color:#f0f; margin:0;">EYVAH! ÇARPTIN!</h2>
-        <img src="https://i.imgur.com/GqDuolU.jpeg" alt="Dead">
-        <p style="color:#fff; font-size:20px;">SKORUN: <span id="finalScore">0</span></p>
-        <button class="retry-btn" id="megaRetryBtn">TEKRAR DENE</button>
+<canvas id="gameCanvas"></canvas>
+
+<div id="ui-layer">
+    <div id="score-display">0</div>
+    <div id="game-over-screen">
+        <img src="https://i.imgur.com/GqDuolU.jpeg" alt="Yandın">
+        <div class="score-info">TOPLAM SKOR: <span id="final-score">0</span></div>
+        <button id="mega-retry-btn">KAFASINI SİKTİĞİM<br>TEKRAR DENE</button>
     </div>
 </div>
 
-<canvas id="gameCanvas"></canvas>
-
 <script>
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
-const scoreDisplay = document.getElementById("scoreDisplay");
-const gameOverBox = document.getElementById("game-over-box");
-const retryBtn = document.getElementById("megaRetryBtn");
+const cvs = document.getElementById("gameCanvas");
+const ctx = cvs.getContext("2d");
+const scoreText = document.getElementById("score-display");
+const overScreen = document.getElementById("game-over-screen");
+const retryBtn = document.getElementById("mega-retry-btn");
+const finalScoreText = document.getElementById("final-score");
 
-let w = window.innerWidth > 440 ? 440 : window.innerWidth;
+// Mobil Uyumluluk Ayarı
+let w = window.innerWidth > 450 ? 420 : window.innerWidth;
 let h = window.innerHeight;
-canvas.width = w; canvas.height = h;
+cvs.width = w; cvs.height = h;
 
-const bImg = new Image(); bImg.src = "https://i.imgur.com/9sZhySO.jpeg";
+const birdImg = new Image(); birdImg.src = "https://i.imgur.com/9sZhySO.jpeg";
 
-// Oyun Durumları
-let isRunning = true;
-let score = 0, frame = 0, speed = 3.5;
-let bird = { x: 60, y: h/2, w: 45, h: 45, v: 0, g: 0.35, j: -7 };
-let pipes = [];
+let bird, pipes, score, frame, isAlive;
+const gravity = 0.35, jumpForce = -6.5;
 
-function resetGame() {
-    // Tüm değerleri fabrika ayarlarına döndür
-    score = 0; frame = 0; speed = 3.5;
-    bird = { x: 60, y: h/2, w: 45, h: 45, v: 0, g: 0.35, j: -7 };
+function start() {
+    bird = { x: 60, y: h/2, w: 50, h: 50, v: 0 };
     pipes = [];
-    scoreDisplay.innerText = "0";
-    gameOverBox.style.display = "none";
-    isRunning = true;
-    
-    // Döngü durmuşsa tekrar başlatma gerekmez çünkü requestAnimationFrame devam ediyor
+    score = 0;
+    frame = 0;
+    isAlive = true;
+    scoreText.innerText = "0";
+    overScreen.style.display = "none";
 }
 
-function stopGame() {
-    isRunning = false;
-    document.getElementById("finalScore").innerText = score;
-    gameOverBox.style.display = "block";
+function die() {
+    isAlive = false;
+    finalScoreText.innerText = score;
+    overScreen.style.display = "flex";
 }
 
 function update() {
-    if(!isRunning) return;
+    if(!isAlive) return;
 
-    bird.v += bird.g;
+    bird.v += gravity;
     bird.y += bird.v;
 
-    // Boru Üretimi
-    if(frame % 80 === 0) {
-        let gap = 160;
-        let top = Math.random() * (h - gap - 150) + 75;
-        pipes.push({ x: w, t: top, g: gap, p: false });
+    if(frame % 85 === 0) {
+        let gap = 180;
+        let t = Math.random() * (h - gap - 200) + 100;
+        pipes.push({ x: w, t: t, g: gap, passed: false });
     }
 
     pipes.forEach((p, i) => {
-        p.x -= speed;
-        
-        // Çarpışma (Hitbox)
-        if(bird.x + 5 < p.x + 60 && bird.x + bird.w - 5 > p.x && 
-          (bird.y + 5 < p.t || bird.y + bird.h - 5 > p.t + p.g)) {
-            stopGame();
+        p.x -= 3.5;
+        // Çarpışma Kutusu (Hassas ayar)
+        if(bird.x + 8 < p.x + 65 && bird.x + bird.w - 8 > p.x && 
+          (bird.y + 8 < p.t || bird.y + bird.h - 8 > p.t + p.g)) die();
+
+        if(!p.passed && p.x < bird.x) {
+            score++;
+            p.passed = true;
+            scoreText.innerText = score;
         }
-        
-        // Skor Artışı
-        if(!p.p && p.x < bird.x) {
-            score++; p.p = true;
-            scoreDisplay.innerText = score;
-            speed += 0.05; // Çılgın hızlanma
-        }
-        if(p.x < -100) pipes.splice(i, 1);
+        if(p.x < -80) pipes.splice(i, 1);
     });
 
-    if(bird.y > h || bird.y < -50) stopGame();
+    if(bird.y > h || bird.y < -150) die();
     frame++;
 }
 
 function draw() {
-    // Arka Plan Temizliği
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = "#000"; // Arka plan siyah
     ctx.fillRect(0, 0, w, h);
-    
-    // Matrix benzeri akış çizgileri (Dekoratif)
-    ctx.fillStyle = "rgba(0, 255, 255, 0.1)";
-    for(let i=0; i<10; i++) ctx.fillRect((i*60 + frame)%w, (i*150)%h, 2, 100);
 
-    // Borular (Parlayan Neon)
+    // Borular
     pipes.forEach(p => {
-        ctx.fillStyle = "#0f0";
-        ctx.shadowBlur = 10; ctx.shadowColor = "#0f0";
-        ctx.fillRect(p.x, 0, 60, p.t);
-        ctx.fillRect(p.x, p.t + p.g, 60, h);
-        ctx.shadowBlur = 0;
+        ctx.fillStyle = "#ff0055";
+        ctx.fillRect(p.x, 0, 65, p.t);
+        ctx.fillRect(p.x, p.t + p.g, 65, h);
     });
 
-    // Kuş Çizimi
+    // Kuş ve Rotasyon
     ctx.save();
     ctx.translate(bird.x + bird.w/2, bird.y + bird.h/2);
-    ctx.rotate(bird.v * 0.08);
-    ctx.drawImage(bImg, -bird.w/2, -bird.h/2, bird.w, bird.h);
+    ctx.rotate(Math.min(Math.PI/4, Math.max(-Math.PI/4, bird.v * 0.1)));
+    ctx.drawImage(birdImg, -bird.w/2, -bird.h/2, bird.w, bird.h);
     ctx.restore();
 
     update();
     requestAnimationFrame(draw);
 }
 
-// KONTROL MERKEZİ
-const handleInput = (e) => {
-    // Eğer Game Over kutusu açıksa, ekrana tıklamak kuşu zıplatmasın
-    if(!isRunning) return; 
-    
-    if(e.type === 'touchstart') e.preventDefault();
-    bird.v = bird.j;
-};
-
-// TEKRAR DENE BUTONU (KESİN ÇÖZÜM)
-retryBtn.addEventListener("click", (e) => {
-    e.stopPropagation(); // Tıklamanın canvas'a sızmasını engeller
-    resetGame();
+// BUTONUN ÇALIŞMASINI GARANTİLEYEN KISIM
+retryBtn.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    start();
 });
 
-// Mobil ve Masaüstü Dinleyiciler
-window.addEventListener("mousedown", handleInput);
-window.addEventListener("touchstart", handleInput, {passive: false});
-window.addEventListener("keydown", (e) => { if(e.code === "Space") handleInput(e); });
+// Zıplama Kontrolü
+const handleAction = (e) => {
+    if(!isAlive) return;
+    if(e.type === 'touchstart') e.preventDefault();
+    bird.v = jumpForce;
+};
 
-bImg.onload = () => draw();
+window.addEventListener("pointerdown", (e) => {
+    if(e.target.id !== "mega-retry-btn") handleAction(e);
+});
+window.addEventListener("keydown", (e) => { if(e.code === "Space") handleAction(e); });
+
+birdImg.onload = () => {
+    start();
+    draw();
+};
 </script>
 </body>
 </html>
